@@ -22,7 +22,7 @@ const InputSection = () => {
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'center', 
-        minHeight: '100vh',
+        minHeight: 'calc(100vh - 200px)', // Subtracting header height (default 64px)
         padding: { xs: 2, md: 5 }
       }}
     >

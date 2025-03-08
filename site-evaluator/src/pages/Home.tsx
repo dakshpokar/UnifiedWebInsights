@@ -23,20 +23,29 @@ function Home() {
       style={{
         background: 'linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%)',
       }}
+      className="min-h-screen w-full overflow-x-hidden"
     >
-      <motion.div variants={sectionVariants} className="flex justify-center items-center w-full">
-        <InputSection />
-      </motion.div>
+      <div className="w-full px-0 mx-auto sm:container sm:px-6 lg:px-8">
+        <motion.div 
+          variants={sectionVariants} 
+          className="flex flex-col items-center justify-center w-full py-6 md:py-10"
+        >
+          <div className="w-full px-4 sm:px-0">
+            <InputSection />
+          </div>
+        </motion.div>
 
-      <motion.div
-        variants={sectionVariants}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-100px" }}
-      >
-        <Features />
-      </motion.div>
+        <motion.div
+          variants={sectionVariants}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-100px" }}
+          className="w-full px-4 sm:px-0"
+        >
+          <Features />
+        </motion.div>
+      </div>
 
-      <motion.div variants={sectionVariants}>
+      <motion.div variants={sectionVariants} className="w-full mt-8">
         <Footer />
       </motion.div>
     </motion.div>
