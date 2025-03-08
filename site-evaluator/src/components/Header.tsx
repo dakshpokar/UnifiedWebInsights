@@ -66,11 +66,12 @@ const Header: React.FC = () => {
 
           {/* Right side buttons */}
           <div className="flex items-center">
+            <Link to="/login">
             <button 
               className="mr-2 px-6 py-1.5 rounded-lg font-semibold bg-gradient-to-r from-[#4568dc] to-[#b06ab3] bg-clip-text text-transparent relative hover:bg-blue-500/5 hover:-translate-y-0.5 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 before:content-[''] before:absolute before:inset-0 before:p-[1.5px] before:rounded-lg border border-blue-500 before:from-[#4568dc] before:to-[#b06ab3] before:mask-composite-exclude"
             >
               Login
-            </button>
+            </button></Link>
             <button 
               className="px-6 py-2 rounded-lg font-medium text-white shadow-lg shadow-blue-500/40 bg-gradient-to-r from-[#4568dc] to-[#b06ab3] hover:from-[#3f5bd5] hover:to-[#a55aa8] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
             >
