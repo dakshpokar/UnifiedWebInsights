@@ -68,6 +68,9 @@ def evaluate_site():
     # Return the result
     # Note: we may want to exclude the full HTML and/or screenshot from the response
     # to reduce payload size, especially if the client doesn't need them immediately
+    # @mehul right now the data is stored in mongo as base64 string
+    # Check evaluate_site function in site_service and use that as necessary.
+
     response_result = {
         "status": "success",
         "evaluationId": str(result.inserted_id),
@@ -76,31 +79,6 @@ def evaluate_site():
     }
 
     return jsonify(response_result)
-
-@app.route('/api/evaluations/<id>', methods=['GET'])
-def get_evaluation(id):
-    try:
-        evaluation = evaluations.find_one({"_id": ObjectId(id)})
-        if not evaluation:
-            return jsonify({"error": "Evaluation not found"}), 404
-        
-        return jsonify(evaluation)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
-
-@app.route('/api/evaluations', methods=['GET'])
-def get_evaluations():
-    try:
-        user_id = request.args.get('userId')
-        query = {"userId": user_id} if user_id else {}
-        
-        # Exclude large fields from initial listing to improve performance
-        projection = {"html.html": 0, "screenshot.screenshot": 0}
-        
-        results = list(evaluations.find(query, projection).sort("timestamp", -1))
-        return jsonify(results)
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
