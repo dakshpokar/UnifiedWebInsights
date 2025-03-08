@@ -142,16 +142,39 @@ const Header: React.FC = () => {
           {/* Right side buttons */}
           <Box sx={{ flexGrow: 0 }}>
             <Button 
-              variant="outlined" 
+              variant="text" 
               color="primary" 
               sx={{ 
                 mr: 2,
                 borderRadius: '8px',
                 px: 3,
-                borderWidth: '1.5px',
+                position: 'relative',
+                overflow: 'hidden',
+                background: 'linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)',
+                WebkitBackgroundClip: 'text',
+                WebkitTextFillColor: 'transparent',
+                fontWeight: 600,
+                '&::before': {
+                  content: '""',
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  borderRadius: '8px',
+                  padding: '1.5px',
+                  background: 'linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)',
+                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
+                  maskComposite: 'exclude',
+                  WebkitMaskComposite: 'xor',
+                  pointerEvents: 'none'
+                },
                 '&:hover': {
-                  borderWidth: '1.5px',
-                }
+                  backgroundColor: 'rgba(69, 104, 220, 0.04)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 6px 20px rgba(176, 106, 179, 0.3)',
+                  transition: 'all 0.3s ease'
+                },
               }}
             >
               Login
@@ -162,7 +185,14 @@ const Header: React.FC = () => {
               sx={{
                 borderRadius: '8px',
                 px: 3,
-                boxShadow: '0 4px 14px 0 rgba(59, 130, 246, 0.4)'
+                boxShadow: '0 4px 14px 0 rgba(59, 130, 246, 0.4)',
+                background: 'linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)',
+                '&:hover': {
+                  background: 'linear-gradient(90deg, #3f5bd5 0%, #a55aa8 100%)',
+                  transform: 'translateY(-2px)',
+                  boxShadow: '0 6px 20px rgba(176, 106, 179, 0.3)',
+                  transition: 'all 0.3s ease'
+                },
               }}
             >
               Sign Up
