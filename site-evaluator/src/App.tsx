@@ -1,8 +1,5 @@
 import { ThemeProvider } from '@mui/material'
 import Features from './components/Features'
-import Methodology from './components/Methodology'
-import Testimonials from './components/Testimonials'
-import CallToAction from './components/CallToAction'
 import Footer from './components/Footer'
 import { theme } from './theme.ts'
 import { motion } from 'framer-motion'
@@ -27,6 +24,9 @@ function App() {
               }
             }
           }}
+          style={{
+            background: 'linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%)',
+          }}
         >
 
           <motion.div variants={sectionVariants} className="flex justify-center items-center w-full">
@@ -41,29 +41,6 @@ function App() {
             <Features />
           </motion.div>
 
-          <motion.div
-            variants={sectionVariants}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <Methodology />
-          </motion.div>
-
-          <motion.div
-            variants={sectionVariants}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <Testimonials />
-          </motion.div>
-
-          <motion.div
-            variants={sectionVariants}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-          >
-            <CallToAction />
-          </motion.div>
 
           <motion.div variants={sectionVariants}>
             <Footer />
