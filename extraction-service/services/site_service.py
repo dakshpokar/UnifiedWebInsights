@@ -3,6 +3,7 @@ import asyncio
 from playwright.async_api import async_playwright
 import base64
 import os
+import subprocess
 from datetime import datetime
 
 
@@ -41,12 +42,39 @@ class SiteService:
                 'timestamp': datetime.utcnow().isoformat()
             }
     
+    def _ensure_playwright_browsers_installed(self):
+        """
+        Check if Playwright browsers are installed and install them if needed
+        """
+        try:
+            # Check if the browser directory exists
+            browser_path = "/Users/dakshpokar/Library/Caches/ms-playwright/chromium-1105/chrome-mac/Chromium.app/Contents/MacOS/Chromium"
+            if not os.path.exists(browser_path):
+                print("Installing Playwright browsers...")
+                subprocess.run(["playwright", "install", "chromium"], check=True)
+                print("Playwright browsers installed successfully.")
+            return True
+        except subprocess.CalledProcessError as e:
+            print(f"Error installing Playwright browsers: {str(e)}")
+            return False
+        except Exception as e:
+            print(f"Unexpected error when checking/installing Playwright browsers: {str(e)}")
+            return False
+    
     async def capture_screenshot_async(self, url):
         """
         Capture a screenshot of the given URL using Playwright
         Returns a base64 encoded image
         """
         try:
+            # Ensure browsers are installed before launching
+            if not self._ensure_playwright_browsers_installed():
+                return {
+                    'status': 'error',
+                    'error': 'Failed to install Playwright browsers',
+                    'timestamp': datetime.utcnow().isoformat()
+                }
+                
             async with async_playwright() as p:
                 browser = await p.chromium.launch()
                 context = await browser.new_context(
