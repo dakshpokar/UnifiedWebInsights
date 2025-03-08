@@ -65,11 +65,12 @@ def evaluate_site():
     result = evaluations.insert_one(evaluation_result)
     evaluation_result['_id'] = str(result.inserted_id)
     
-    # Return the result
-    # Note: we may want to exclude the full HTML and/or screenshot from the response
-    # to reduce payload size, especially if the client doesn't need them immediately
-    # @mehul right now the data is stored in mongo as base64 string
+    # @Mehul right now the data is stored in mongo as base64 string
     # Check evaluate_site function in site_service and use that as necessary.
+    # For now we just have to complete this API, evaluate_site after which I will be 
+    # consuming the URLs from RabbitMQ or Kafka Queue.
+    # Once you have processed the current URL we will just push it to mongodb with the same object id 
+    # as received for this request.
 
     response_result = {
         "status": "success",
