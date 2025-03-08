@@ -1,5 +1,4 @@
 import React from 'react';
-import { AppBar, Toolbar, Typography, Button, Box, Container } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 
 const Header: React.FC = () => {
@@ -10,197 +9,77 @@ const Header: React.FC = () => {
   };
 
   return (
-    <AppBar 
-      position="static" 
-      elevation={0}
-      sx={{ 
-        bgcolor: 'transparent', 
-        borderBottom: '1px solid rgba(0, 0, 0, 0.05)',
-        backdropFilter: 'blur(8px)',
-      }}
-    >
-      <Container maxWidth="xl">
-        <Toolbar disableGutters sx={{ py: 1 }}>
+    <header className="sticky top-0 z-10 bg-transparent border-b border-black/5 backdrop-blur-md">
+      <div className="container mx-auto max-w-7xl">
+        <div className="flex items-center justify-between py-4 px-4 lg:px-0">
           {/* Logo/Brand */}
-          <Typography
-            variant="h6"
-            noWrap
-            component={Link}
+          <Link
             to="/"
-            sx={{
-              mr: 2,
-              display: 'flex',
-              fontWeight: 700,
-              background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              textDecoration: 'none',
-              flexGrow: { xs: 1, md: 0 },
-              letterSpacing: '0.05em'
-            }}
+            className="mr-8 font-bold text-xl tracking-wider bg-gradient-to-r from-blue-500 to-purple-500 bg-clip-text text-transparent flex-grow md:flex-grow-0"
           >
             SITE EVALUATOR
-          </Typography>
+          </Link>
 
           {/* Navigation Links */}
-          <Box sx={{ 
-            flexGrow: 1, 
-            display: 'flex', 
-            justifyContent: 'center',
-            mx: 2
-          }}>
-            <Button 
-              component={Link} 
+          <div className="flex-1 flex justify-center mx-2">
+            <Link 
               to="/" 
-              sx={{ 
-                mx: 1.5, 
-                color: isActive('/') ? 'primary.main' : 'text.secondary', 
-                fontWeight: isActive('/') ? 700 : 500,
-                position: 'relative',
-                '&::after': isActive('/') ? {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '20%',
-                  width: '60%',
-                  height: '3px',
-                  borderRadius: '2px',
-                  bgcolor: 'primary.main'
-                } : {}
-              }}
+              className={`mx-1.5 relative px-3 py-2 ${
+                isActive('/') 
+                  ? 'text-blue-600 font-bold after:content-[""] after:absolute after:bottom-0 after:left-[20%] after:w-[60%] after:h-[3px] after:rounded-md after:bg-blue-600' 
+                  : 'text-gray-600 font-medium'
+              }`}
             >
               Home
-            </Button>
-            <Button 
-              component={Link} 
+            </Link>
+            <Link 
               to="/evaluate" 
-              sx={{ 
-                mx: 1.5, 
-                color: isActive('/evaluate') ? 'primary.main' : 'text.secondary', 
-                fontWeight: isActive('/evaluate') ? 700 : 500,
-                position: 'relative',
-                '&::after': isActive('/evaluate') ? {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '20%',
-                  width: '60%',
-                  height: '3px',
-                  borderRadius: '2px',
-                  bgcolor: 'primary.main'
-                } : {}
-              }}
+              className={`mx-1.5 relative px-3 py-2 ${
+                isActive('/evaluate') 
+                  ? 'text-blue-600 font-bold after:content-[""] after:absolute after:bottom-0 after:left-[20%] after:w-[60%] after:h-[3px] after:rounded-md after:bg-blue-600' 
+                  : 'text-gray-600 font-medium'
+              }`}
             >
               About
-            </Button>
-            <Button 
-              component={Link} 
+            </Link>
+            <Link 
               to="/history" 
-              sx={{ 
-                mx: 1.5, 
-                color: isActive('/history') ? 'primary.main' : 'text.secondary', 
-                fontWeight: isActive('/history') ? 700 : 500,
-                position: 'relative',
-                '&::after': isActive('/history') ? {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '20%',
-                  width: '60%',
-                  height: '3px',
-                  borderRadius: '2px',
-                  bgcolor: 'primary.main'
-                } : {}
-              }}
+              className={`mx-1.5 relative px-3 py-2 ${
+                isActive('/history') 
+                  ? 'text-blue-600 font-bold after:content-[""] after:absolute after:bottom-0 after:left-[20%] after:w-[60%] after:h-[3px] after:rounded-md after:bg-blue-600' 
+                  : 'text-gray-600 font-medium'
+              }`}
             >
               Documentation
-            </Button>
-            <Button 
-              component={Link} 
+            </Link>
+            <Link 
               to="/about" 
-              sx={{ 
-                mx: 1.5, 
-                color: isActive('/about') ? 'primary.main' : 'text.secondary', 
-                fontWeight: isActive('/about') ? 700 : 500,
-                position: 'relative',
-                '&::after': isActive('/about') ? {
-                  content: '""',
-                  position: 'absolute',
-                  bottom: 0,
-                  left: '20%',
-                  width: '60%',
-                  height: '3px',
-                  borderRadius: '2px',
-                  bgcolor: 'primary.main'
-                } : {}
-              }}
+              className={`mx-1.5 relative px-3 py-2 ${
+                isActive('/about') 
+                  ? 'text-blue-600 font-bold after:content-[""] after:absolute after:bottom-0 after:left-[20%] after:w-[60%] after:h-[3px] after:rounded-md after:bg-blue-600' 
+                  : 'text-gray-600 font-medium'
+              }`}
             >
               Pricing
-            </Button>
-          </Box>
+            </Link>
+          </div>
 
           {/* Right side buttons */}
-          <Box sx={{ flexGrow: 0 }}>
-            <Button 
-              variant="text" 
-              color="primary" 
-              sx={{ 
-                mr: 2,
-                borderRadius: '8px',
-                px: 3,
-                position: 'relative',
-                overflow: 'hidden',
-                background: 'linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)',
-                WebkitBackgroundClip: 'text',
-                WebkitTextFillColor: 'transparent',
-                fontWeight: 600,
-                '&::before': {
-                  content: '""',
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  right: 0,
-                  bottom: 0,
-                  borderRadius: '8px',
-                  padding: '1.5px',
-                  background: 'linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)',
-                  mask: 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
-                  maskComposite: 'exclude',
-                  WebkitMaskComposite: 'xor',
-                  pointerEvents: 'none'
-                },
-                '&:hover': {
-                  backgroundColor: 'rgba(69, 104, 220, 0.04)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 6px 20px rgba(176, 106, 179, 0.3)',
-                  transition: 'all 0.3s ease'
-                },
-              }}
+          <div className="flex items-center">
+            <button 
+              className="mr-2 px-6 py-1.5 rounded-lg font-semibold bg-gradient-to-r from-[#4568dc] to-[#b06ab3] bg-clip-text text-transparent relative hover:bg-blue-500/5 hover:-translate-y-0.5 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/30 before:content-[''] before:absolute before:inset-0 before:p-[1.5px] before:rounded-lg border border-blue-500 before:from-[#4568dc] before:to-[#b06ab3] before:mask-composite-exclude"
             >
               Login
-            </Button>
-            <Button 
-              variant="contained" 
-              color="primary"
-              sx={{
-                borderRadius: '8px',
-                px: 3,
-                boxShadow: '0 4px 14px 0 rgba(59, 130, 246, 0.4)',
-                background: 'linear-gradient(90deg, #4568dc 0%, #b06ab3 100%)',
-                '&:hover': {
-                  background: 'linear-gradient(90deg, #3f5bd5 0%, #a55aa8 100%)',
-                  transform: 'translateY(-2px)',
-                  boxShadow: '0 6px 20px rgba(176, 106, 179, 0.3)',
-                  transition: 'all 0.3s ease'
-                },
-              }}
+            </button>
+            <button 
+              className="px-6 py-2 rounded-lg font-medium text-white shadow-lg shadow-blue-500/40 bg-gradient-to-r from-[#4568dc] to-[#b06ab3] hover:from-[#3f5bd5] hover:to-[#a55aa8] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
             >
               Sign Up
-            </Button>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+            </button>
+          </div>
+        </div>
+      </div>
+    </header>
   );
 };
 
