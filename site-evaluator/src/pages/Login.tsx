@@ -47,14 +47,14 @@ const Login = () => {
 
   return (
     <Box
-      className="min-h-screen"
       sx={{
         background: 'linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%)', // Changed from minHeight to fixed height
         width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: { xs: 2, md: 5 },
+        minHeight: "100vh",
+        // padding: { xs: 2, md: 5 },
         overflow: 'hidden', // Prevent scrolling
       }}
     >
@@ -64,7 +64,6 @@ const Login = () => {
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center',
-          height: 'auto', // Changed from 100% to auto
           width: '100%',
           overflow: 'visible', // Allow content to be visible without scrolling
         }}

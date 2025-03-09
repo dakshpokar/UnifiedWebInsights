@@ -36,7 +36,7 @@ const Header: React.FC = () => {
   }, [isMenuOpen]);
 
   return (
-    <header className="sticky top-0 z-10 bg-transparent border-b border-black/5 backdrop-blur-md">
+    <header className="fixed w-full top-0 z-10 bg-transparent border-b border-black/5 backdrop-blur-md">
       <div className="container mx-auto max-w-7xl">
         <div className="flex items-center justify-between py-4 px-4 lg:px-0">
           {/* Logo/Brand */}
