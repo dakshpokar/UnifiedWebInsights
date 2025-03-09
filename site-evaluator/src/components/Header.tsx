@@ -110,11 +110,13 @@ const Header: React.FC = () => {
                 Login
               </button>
             </Link>
+            <Link to="/signup">
             <button 
               className="px-6 py-2 rounded-lg font-medium text-white shadow-lg shadow-blue-500/40 bg-gradient-to-r from-[#4568dc] to-[#b06ab3] hover:from-[#3f5bd5] hover:to-[#a55aa8] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
             >
               Sign Up
             </button>
+            </Link>
           </div>
         </div>
       </div>

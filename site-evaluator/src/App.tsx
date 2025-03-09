@@ -4,6 +4,7 @@ import { theme } from './theme.ts'
 import Home from './pages/Home'
 import Header from './components/Header'
 import Login from './pages/Login'
+import SignUp from './pages/SignUp.tsx'
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path='/signup' element={<SignUp/>}/>
           </Routes>
         </Router>
       </div>

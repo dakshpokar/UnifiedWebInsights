@@ -11,35 +11,63 @@ import {
 } from '@mui/material';
 import { Link as RouterLink } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import LoginIcon from '@mui/icons-material/Login';
+import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt';
 
-const Login = () => {
+const SignUp = () => {
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    // Basic validation
+    if (!firstName.trim()) {
+      setError('Please enter your first name');
+      return;
+    }
+    
+    if (!lastName.trim()) {
+      setError('Please enter your last name');
+      return;
+    }
+    
+    if (!email.includes('@')) {
+      setError('Please enter a valid email address');
+      return;
+    }
+    
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+    
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+    
     setLoading(true);
     
-    // Simulate login API call
+    // Simulate sign up API call
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
-      // Here you would add actual login logic
-      console.log('Login attempt:', { email, password });
-      
-      // For demonstration, just show success for valid-looking email
-      if (!email.includes('@')) {
-        throw new Error('Please enter a valid email address');
-      }
+      // Here you would add actual signup logic
+      console.log('Sign up attempt:', { firstName, lastName, email, password });
       
       // Reset form on success
+      setFirstName('');
+      setLastName('');
       setEmail('');
       setPassword('');
+      setConfirmPassword('');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
+      setError(err instanceof Error ? err.message : 'Sign up failed. Please try again.');
     } finally {
       setLoading(false);
     }
@@ -48,14 +76,13 @@ const Login = () => {
   return (
     <Box
       sx={{
-        background: 'linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%)', // Changed from minHeight to fixed height
+        background: 'linear-gradient(135deg, #f5f7fa 0%, #e4efe9 100%)',
         width: '100%',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
         minHeight: "100vh",
-        // padding: { xs: 2, md: 5 },
-        overflow: 'hidden', // Prevent scrolling
+        overflow: 'hidden',
       }}
     >
       <Container 
@@ -65,7 +92,7 @@ const Login = () => {
           alignItems: 'center', 
           justifyContent: 'center',
           width: '100%',
-          overflow: 'visible', // Allow content to be visible without scrolling
+          overflow: 'visible',
         }}
       >
         <Paper
@@ -79,8 +106,8 @@ const Login = () => {
             boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
             width: '100%',
             maxWidth: '500px',
-            maxHeight: '90vh', // Add maximum height
-            display: 'flex',  // Ensure content fits properly
+            maxHeight: '90vh',
+            display: 'flex',
             flexDirection: 'column',
           }}
         >
@@ -102,7 +129,7 @@ const Login = () => {
                 lineHeight: 1.2
               }}
             >
-              Welcome Back
+              Create Account
             </Typography>
             
             {error && (
@@ -126,6 +153,46 @@ const Login = () => {
                 position: 'relative',
               }}
             >
+              <Box sx={{ display: 'flex', gap: 2, mb: 2.5 }}>
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '16px',
+                      bgcolor: '#ffffff',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                      padding: '6px 14px',
+                      '&:hover': {
+                        boxShadow: '0 6px 24px rgba(0,0,0,0.1)',
+                      },
+                    }
+                  }}
+                />
+                
+                <TextField
+                  fullWidth
+                  variant="outlined"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  sx={{
+                    '& .MuiOutlinedInput-root': {
+                      borderRadius: '16px',
+                      bgcolor: '#ffffff',
+                      boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                      padding: '6px 14px',
+                      '&:hover': {
+                        boxShadow: '0 6px 24px rgba(0,0,0,0.1)',
+                      },
+                    }
+                  }}
+                />
+              </Box>
+              
               <TextField
                 fullWidth
                 variant="outlined"
@@ -154,6 +221,27 @@ const Login = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 sx={{
+                  mb: 2.5,
+                  '& .MuiOutlinedInput-root': {
+                    borderRadius: '16px',
+                    bgcolor: '#ffffff',
+                    boxShadow: '0 4px 20px rgba(0,0,0,0.06)',
+                    padding: '6px 14px',
+                    '&:hover': {
+                      boxShadow: '0 6px 24px rgba(0,0,0,0.1)',
+                    },
+                  }
+                }}
+              />
+              
+              <TextField
+                fullWidth
+                variant="outlined"
+                placeholder="Confirm Password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                sx={{
                   mb: 3,
                   '& .MuiOutlinedInput-root': {
                     borderRadius: '16px',
@@ -177,7 +265,7 @@ const Login = () => {
                   type="submit"
                   disableElevation
                   disabled={loading}
-                  startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <LoginIcon />}
+                  startIcon={loading ? <CircularProgress size={20} color="inherit" /> : <PersonAddAltIcon />}
                   sx={{
                     borderRadius: '12px',
                     padding: '12px 24px',
@@ -194,13 +282,17 @@ const Login = () => {
                     marginBottom: 3
                   }}
                 >
-                  {loading ? 'Signing In...' : 'Sign In'}
+                  {loading ? 'Creating Account...' : 'Create Account'}
                 </Button>
               </motion.div>
               
-              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 2 }}>
+              <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+                <Typography variant="body2" sx={{ color: '#666', mr: 1 }}>
+                  Already have an account?
+                </Typography>
                 <Link 
-                  href="#" 
+                  component={RouterLink} 
+                  to="/login" 
                   underline="hover" 
                   sx={{ 
                     color: '#4568dc', 
@@ -212,28 +304,11 @@ const Login = () => {
                     } 
                   }}
                 >
-                  Forgot password?
-                </Link>
-                
-                <Link 
-                  component={RouterLink} 
-                  to="/signup" 
-                  underline="hover" 
-                  sx={{ 
-                    color: '#b06ab3', 
-                    fontSize: '0.9rem',
-                    fontWeight: 500,
-                    transition: 'all 0.2s ease',
-                    '&:hover': {
-                      color: '#a55aa8',
-                    } 
-                  }}
-                >
-                  Create account
+                  Sign In
                 </Link>
               </Box>
               
-              {/* Decorative elements like in InputSection */}
+              {/* Decorative elements */}
               <Box 
                 sx={{ 
                   position: 'absolute',
@@ -268,4 +343,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignUp;
