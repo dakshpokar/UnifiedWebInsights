@@ -1,86 +1,57 @@
-from flask import Flask, request, jsonify
+from flask import Flask
 from flask_cors import CORS
-from pymongo import MongoClient
-from bson.objectid import ObjectId
 from dotenv import load_dotenv
 import os
-import json
-from datetime import datetime
-from services.site_service import SiteService  # Import our new service
+import concurrent.futures
+from api.routes import register_routes
+from config.mongodb import init_db
+from utils.json_encoder import CustomJSONEncoder
 
 # Load environment variables
 load_dotenv()
 
-app = Flask(__name__)
-CORS(app)
-
-# MongoDB Connection
-mongo_uri = os.environ.get('MONGODB_URI')
-client = MongoClient(mongo_uri)
-db = client.site_evaluator  # Database name
-
-# Collections
-evaluations = db.evaluations
-users = db.users
-
-# Initialize our site service
-site_service = SiteService()
-
-# JSON encoder to handle ObjectId and datetime
-class JSONEncoder(json.JSONEncoder):
-    def default(self, o):
-        if isinstance(o, ObjectId):
-            return str(o)
-        if isinstance(o, datetime):
-            return o.isoformat()
-        return json.JSONEncoder.default(self, o)
-
-app.json_encoder = JSONEncoder
-
-# Routes
-@app.route('/')
-def home():
-    return jsonify({
-        "status": "success",
-        "message": "Flask API Service is running"
-    })
-
-@app.route('/api/evaluate', methods=['POST'])
-def evaluate_site():
-    data = request.json
+def create_app(test_config=None):
+    """Application factory pattern for Flask"""
+    app = Flask(__name__)
     
-    if not data or 'url' not in data:
-        return jsonify({"error": "URL is required"}), 400
+    # Configure app
+    app.config.from_mapping(
+        SECRET_KEY=os.environ.get('SECRET_KEY', 'dev'),
+        MONGODB_URI=os.environ.get('MONGODB_URI', 'mongodb://localhost:27017/'),
+        MAX_WORKERS=int(os.environ.get('MAX_WORKERS', 10)),
+        DEBUG=os.environ.get('FLASK_ENV', 'production') == 'development',
+    )
     
-    url = data['url']
-    user_id = data.get('userId')  
+    # Override config with test config if provided
+    if test_config:
+        app.config.update(test_config)
     
-    # Use our new service to evaluate the site
-    evaluation_result = site_service.evaluate_site(url)
+    # Set up CORS
+    CORS(app)
     
-    # Store the evaluation result in MongoDB
-    if user_id:
-        evaluation_result['userId'] = user_id
-        
-    result = evaluations.insert_one(evaluation_result)
-    evaluation_result['_id'] = str(result.inserted_id)
+    # Initialize executor for background tasks
+    app.executor = concurrent.futures.ThreadPoolExecutor(
+        max_workers=app.config['MAX_WORKERS']
+    )
     
-    # @Mehul right now the data is stored in mongo as base64 string
-    # Check evaluate_site function in site_service and use that as necessary.
-    # For now we just have to complete this API, evaluate_site after which I will be 
-    # consuming the URLs from RabbitMQ or Kafka Queue.
-    # Once you have processed the current URL we will just push it to mongodb with the same object id 
-    # as received for this request.
-
-    response_result = {
-        "status": "success",
-        "evaluationId": str(result.inserted_id),
-        "url": url,
-        "timestamp": evaluation_result['timestamp']
-    }
-
-    return jsonify(response_result)
+    # Set up custom JSON encoder
+    app.json_encoder = CustomJSONEncoder
+    
+    # Initialize database
+    app.db = init_db(app.config['MONGODB_URI'])
+    
+    # Register all routes
+    register_routes(app)
+    
+    return app
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 5000))
-    app.run(host='0.0.0.0', port=port, debug=True)
+    app = create_app()
+    port = int(os.environ.get('PORT', 4100))
+    
+    # In production, we should use a WSGI server like gunicorn
+    if app.config['DEBUG']:
+        app.run(host='0.0.0.0', port=port, debug=True)
+    else:
+        # For development simplicity
+        app.run(host='0.0.0.0', port=port, threaded=True)
