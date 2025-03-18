@@ -38,8 +38,7 @@ RUN python -m playwright install chromium
 
 COPY . .
 
-ENV PYTHONUNBUFFERED=1
+# Set Gunicorn configuration with proper timeout and worker settings
+ENTRYPOINT ["gunicorn", "--workers=2", "--worker-class=gthread", "--threads=4", "--timeout=120", "--log-level=debug", "--preload", "app:create_app()"]
 
-ENTRYPOINT ["gunicorn", "--bind", "0.0.0.0:4100", "app:create_app()"]
-
-EXPOSE 4100
+EXPOSE 8000
