@@ -1,6 +1,6 @@
 {
   "projectName": "UnifiedWebInsights",
-  "projectOwner": "",
+  "projectOwner": "cs568",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
@@ -9,7 +9,18 @@
   "imageSize": 100,
   "commit": true,
   "commitConvention": "angular",
-  "contributors": [],
+  "contributors": [
+    {
+      "login": "dakshpokar",
+      "name": "Daksh Pokar",
+      "avatar_url": "https://avatars.githubusercontent.com/u/9296446?v=4",
+      "profile": "http://www.dakshpokar.com/",
+      "contributions": [
+        "code",
+        "doc"
+      ]
+    }
+  ],
   "contributorsPerLine": 7,
   "linkToUsage": true
 }
