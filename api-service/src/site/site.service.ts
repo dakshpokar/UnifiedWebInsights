@@ -3,9 +3,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class SiteService {
   async evaluateSite(url: string): Promise<any> {
-    // This is where you would implement the actual site evaluation logic
-    // For now, we'll just return a mock response
-    
+
     return {
       url,
       evaluation: {

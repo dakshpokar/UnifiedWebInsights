@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { LoginRequest, RegisterRequest, User, authService } from '../api/services/authService';
+import { LoginRequest, RegisterRequest, User } from '../types/auth.types';
+import { authService } from '../api/services/auth.service';
 
 // Enhanced user interface matching our auth service
 
