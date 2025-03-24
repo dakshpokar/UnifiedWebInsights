@@ -9,39 +9,33 @@ import {
   Button,
   Box,
 } from '@mui/material';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import LoginIcon from '@mui/icons-material/Login';
+import { useAuth } from '../providers/AuthProvider';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const { login, loading, error } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setLoading(true);
     
-    // Simulate login API call
     try {
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      // Here you would add actual login logic
-      console.log('Login attempt:', { email, password });
-      
-      // For demonstration, just show success for valid-looking email
-      if (!email.includes('@')) {
-        throw new Error('Please enter a valid email address');
-      }
+      // Call the login function from useAuth hook
+      await login({ email, password });
       
       // Reset form on success
       setEmail('');
       setPassword('');
+      
+      // Navigate to dashboard or home page after successful login
+      navigate('/');
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Login failed. Please try again.');
-    } finally {
-      setLoading(false);
+      // Error is handled by the useAuth hook
+      console.error('Login error:', err);
     }
   };
 
