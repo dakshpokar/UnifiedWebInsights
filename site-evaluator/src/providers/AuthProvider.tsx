@@ -1,14 +1,8 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { LoginRequest, authService } from '../api/services/authService';
+import { LoginRequest, User, authService } from '../api/services/authService';
 
 // Enhanced user interface matching our auth service
-interface User {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
-}
 
 interface AuthContextType {
   isAuthenticated: boolean;

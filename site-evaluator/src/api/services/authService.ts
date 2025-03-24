@@ -5,13 +5,16 @@ export interface LoginRequest {
   password: string;
 }
 
+export interface User {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+}
+
 export interface AuthResponse {
   accessToken: string;
-  user: {
-    id: string;
-    email: string;
-    name: string;
-  };
+  user: User
 }
 
 export const authService = {
