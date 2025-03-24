@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
-import { LoginRequest, User, authService } from '../api/services/authService';
+import { LoginRequest, RegisterRequest, User, authService } from '../api/services/authService';
 
 // Enhanced user interface matching our auth service
 
@@ -11,6 +11,7 @@ interface AuthContextType {
   loading: boolean;
   login: (credentials: LoginRequest) => void;
   logout: () => void;
+  register: (registerRequest: RegisterRequest) => void;
 }
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -75,6 +76,30 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
     }
   };
 
+  const register = async (registerRequest: RegisterRequest) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+        const response = await authService.register(registerRequest);
+        const userData = response.data.user;
+        
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('authToken', response.data.accessToken);
+        
+        setUser(userData);
+        setIsAuthenticated(true);
+        
+    } catch (err) {
+        const message = err instanceof Error ? err.message : 'Login failed';
+        setError(message);
+        setIsAuthenticated(false);
+        throw err;
+    } finally {
+        setLoading(false);
+    }
+  }
+
   const logout = () => {
     localStorage.removeItem('authToken');
     localStorage.removeItem('user');
@@ -83,7 +108,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, error, loading: isLoading }}>
+    <AuthContext.Provider value={{ isAuthenticated, user, login, logout, register, error, loading: isLoading }}>
       {children}
     </AuthContext.Provider>
   );

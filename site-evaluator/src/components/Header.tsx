@@ -6,7 +6,7 @@ const Header: React.FC = () => {
   const location = useLocation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const menuRef = useRef<HTMLDivElement>(null);
-  const { user } = useAuth();
+  const { user, logout } = useAuth();
 
   const isActive = (path: string) => {
     return location.pathname === path;
@@ -120,11 +120,12 @@ const Header: React.FC = () => {
           {user && (
             <div>
               Welcome, {user.firstName} {" "} {user.lastName}!
-              <Link to="/logout">
-                <button className="mx-2 px-6 py-2 rounded-lg font-medium text-white shadow-lg shadow-blue-500/40 bg-gradient-to-r from-[#4568dc] to-[#b06ab3] hover:from-[#3f5bd5] hover:to-[#a55aa8] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300">
+                <button
+                  className="mx-2 px-6 py-2 rounded-lg font-medium text-white shadow-lg shadow-blue-500/40 bg-gradient-to-r from-[#4568dc] to-[#b06ab3] hover:from-[#3f5bd5] hover:to-[#a55aa8] hover:-translate-y-0.5 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-300"
+                  onClick={()=>logout()}
+                >
                   Logout
                 </button>
-              </Link>
               </div>
           )}
         </div>
