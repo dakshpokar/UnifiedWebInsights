@@ -13,7 +13,7 @@ class LLMService:
     def __init__(self):
         # Configure the client with your Gemini API key
         genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-        self.model = genai.GenerativeModel('gemini-1.5-pro-latest')
+        self.model = genai.GenerativeModel('gemini-2.0-flash')
 
     def analyze(
         self,
@@ -45,7 +45,7 @@ class LLMService:
         - Mobile findings: {json.dumps(mobile_analysis)}
         - Performance findings: {json.dumps(performance_analysis)}
         - Accessibility findings: {json.dumps(accessibility_analysis)}
-        - Raw HTML: {html_content[:500]}...  (truncated)
+        - Raw HTML: {html_content}
         
         Provide:
         1. A concise summary of the overall site health.
@@ -73,7 +73,7 @@ class LLMService:
         # If issues arise, or for more complex scenarios (e.g. multi-part response),
         # you might need to inspect response.candidates[0].content.parts.
         content = response.text
-        
+        print(f"LLM Response: {content}")
         try:
             report = json.loads(content)
         except json.JSONDecodeError:
