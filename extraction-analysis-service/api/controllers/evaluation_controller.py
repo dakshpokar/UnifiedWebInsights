@@ -34,7 +34,7 @@ def register_evaluation_routes(app):
         evaluation_id = str(result.inserted_id)
         
         # Publish the evaluation message to RabbitMQ so that a consumer could process this task
-        publish_evaluation(evaluation_id, url, user_id)
+        # publish_evaluation(evaluation_id, url, user_id)
         
         # Start background analysis via thread pool as before
         app.executor.submit(
